@@ -119,6 +119,7 @@ html, body {
     margin: 10px 0 16px 0;
 }
 
+/* 🟢 [수정] 대화하기 버튼 텍스트 색상을 검정색(#000)으로 명시적 고정 */
 .chat-start-btn {
     background: linear-gradient(180deg, #f7faf3 10%, #a4e05a 90%);
     border: 1px solid #000;
@@ -126,6 +127,7 @@ html, body {
     border-radius: 20px;
     font-weight: bold;
     font-size: 16px;
+    color: #000000 !important; /* 👈 검은색 강제 고정 */
     cursor: pointer;
 }
 
@@ -169,8 +171,8 @@ html, body {
 }
 
 .header-thumb {
-    width: 33px;
-    height: 33px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     object-fit: cover;
     border: 0px solid #333;
@@ -197,11 +199,11 @@ html, body {
     object-fit: contain;
 }
 
-/* 📜 중앙 메시지 스크롤 영역 */
+/* 📜 중앙 메시지 스크롤 영역 (하단 푸터 높이에 맞춰 bottom 조정) */
 .chat-messages {
     position: absolute;
     top: 64px;
-    bottom: 90px;
+    bottom: 100px; /* 🟢 90px -> 100px로 변경 */
     left: 0;
     right: 0;
     overflow-y: auto;
@@ -312,10 +314,10 @@ html, body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 90px;
+    height: 100px; /* 🟢 90px -> 100px로 10px 확대 */
     background: url('footer-bg.png') no-repeat center center rgba(255, 249, 99, 0.98);
     background-size: cover;
-    padding: 8px 14px 34px 14px;
+    padding: 8px 14px 44px 14px; /* 🟢 아래 여백(padding-bottom)을 34px -> 44px로 10px 올려줌 */
     z-index: 1000;
     border-top: 1px solid rgba(0,0,0,0.06);
 }
