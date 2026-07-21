@@ -14,7 +14,7 @@ const chatMessages = document.getElementById('chat-messages');
 
 // 👑 아티스트 답장 모드 상태 변수
 let isArtistMode = false;
-const ARTIST_PASSWORD = "1234";
+const ARTIST_PASSWORD = "12301995";
 
 // 1️⃣ 대화하기 버튼 클릭 시 채팅 화면으로 이동
 startChatBtn.addEventListener('click', () => {
@@ -32,19 +32,19 @@ backBtn.addEventListener('click', () => {
 // 3️⃣ 우측 상단 비밀 버튼 클릭 -> 답장 모드 비밀번호 확인
 moreBtn.addEventListener('click', () => {
     if (!isArtistMode) {
-        const password = prompt("비밀번호를 입력하세요:");
+        const password = prompt("비밀번호가 뭐야?");
         if (password === ARTIST_PASSWORD) {
             isArtistMode = true;
-            alert("👑 아티스트(맘이) 모드로 전환되었습니다!");
-            messageInput.placeholder = "답장 작성 중...";
+            alert("알아냈어요?!");
+            messageInput.placeholder = "마음에게...";
             messageInput.focus();
         } else if (password !== null) {
             alert("날 닮은 너~ 너 누구야~");
         }
     } else {
-        if (confirm("일반 사용자 모드로 돌아가시겠습니까?")) {
+        if (confirm("일반 모드")) {
             isArtistMode = false;
-            alert("일반 모드로 돌아왔습니다.");
+            alert("짠!");
             messageInput.placeholder = "마음 속 이야기를...";
         }
     }
