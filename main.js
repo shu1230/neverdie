@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io("https://neverdie-backend.onrender.com");
 
 // DOM 요소 가져오기
 const screen1 = document.getElementById('screen-1');
