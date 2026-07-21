@@ -319,7 +319,7 @@ html, body {
     background-size: cover;
     padding: 8px 14px 44px 14px; /* 🟢 아래 여백(padding-bottom)을 34px -> 44px로 10px 올려줌 */
     z-index: 1000;
-    border-top: 0px solid rgba(0,0,0,0.06);
+    border-top: 1px solid #000;
 }
 
 .input-form {
