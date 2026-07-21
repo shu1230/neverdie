@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "dependencies": {
+  "dependencies": "mongoose": "^8.0.0"{
     "express": "^5.2.1",
     "socket.io": "^4.8.3"
   }
