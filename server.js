@@ -93,11 +93,8 @@ io.on('connection', async (socket) => {
     });
 });
 
-const PORT = 3000;
+// 🟢 Render 환경변수 포트 반영 & 중복 listen 제거
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    console.log(`🚀 [로컬 서버 실행 중] http://localhost:${PORT}`);
-});
-
-server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });
