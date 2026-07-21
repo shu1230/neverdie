@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Phoning App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="mobile-app">
+        
+        <!-- 1️⃣ 메인 프로필 카드 화면 -->
+        <div id="screen-1" class="screen active">
+            <div class="profile-card">
+                <div class="profile-img-box">
+                    <img src="profile.png" alt="Profile" class="artist-photo" onerror="this.src='https://via.placeholder.com/300x300?text=Profile+Photo'">
+                </div>
+
+                <div class="card-info">
+                    <div class="doodle-box">
+                        <img src="doodle.png" alt="doodle" class="doodle-img" onerror="this.style.display='none'">
+                    </div>
+                    <h2 class="artist-name">맘이</h2>
+                    <span class="music-icon">마음 따라 뛰는 건 멋지지 않아? ૮⁔•︡ ᴥ •︠⁔아가⊹܀☆</span>
+                    <button id="start-chat-btn" class="chat-start-btn">대화하기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2️⃣ 실시간 채팅 화면 -->
+        <div id="screen-2" class="screen chat-screen">
+            
+            <!-- 상단 헤더 -->
+            <header class="chat-header">
+                <button id="back-btn" class="header-btn">
+                    <img src="icon-back.png" alt="back" class="icon-img" onerror="this.style.display='none'; this.parentNode.innerText='‹'">
+                </button>
+                
+                <div class="header-profile">
+                    <img src="profile.png" alt="Profile" class="header-thumb" onerror="this.src='https://via.placeholder.com/40'">
+                    <span class="header-name">맘이</span>
+                </div>
+                
+                <button id="more-btn" class="header-btn">
+    <img src="icon-more.png" alt="more" class="icon-img" onerror="this.style.display='none'; this.parentNode.innerText='⋮'">
+</button>
+                    <img src="icon-more.png" alt="more" class="icon-img" onerror="this.style.display='none'; this.parentNode.innerText='⋮'">
+                </button>
+            </header>
+
+            <!-- 메시지 영역 (깨끗한 빈 박스 - 자바스크립트가 차곡차곡 채웁니다) -->
+            <div id="chat-messages" class="chat-messages"></div>
+
+            <!-- 하단 입력창 -->
+            <footer class="chat-footer">
+                <form id="chat-form" class="input-form">
+                    <input type="text" id="message-input" placeholder="마음 속 이야기를..." autocomplete="off">
+                    <button type="submit" class="send-btn">
+                        <img src="icon-send.png" alt="send" class="send-icon-img" onerror="this.style.display='none'; this.parentNode.innerText='➤'">
+                    </button>
+                </form>
+            </footer>
+
+        </div>
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
