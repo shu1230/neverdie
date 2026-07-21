@@ -6,15 +6,15 @@ const screen2 = document.getElementById('screen-2');
 
 const startChatBtn = document.getElementById('start-chat-btn');
 const backBtn = document.getElementById('back-btn');
-const moreBtn = document.getElementById('more-btn'); // 👈 아티스트 모드 전환 버튼
+const moreBtn = document.getElementById('more-btn');
 
 const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
 const chatMessages = document.getElementById('chat-messages');
 
-// 👑 아티스트 답장 모드 상태 변수 (기본값: false - 일반 사용자 모드)
+// 👑 아티스트 답장 모드 상태 변수
 let isArtistMode = false;
-const ARTIST_PASSWORD = "1234"; // 🔒 원하는 비밀번호로 변경 가능!
+const ARTIST_PASSWORD = "1234";
 
 // 1️⃣ 대화하기 버튼 클릭 시 채팅 화면으로 이동
 startChatBtn.addEventListener('click', () => {
@@ -35,17 +35,16 @@ moreBtn.addEventListener('click', () => {
         const password = prompt("비밀번호를 입력하세요:");
         if (password === ARTIST_PASSWORD) {
             isArtistMode = true;
-            alert("어떻게...?");
-            messageInput.placeholder = "답장!";
+            alert("👑 아티스트(맘이) 모드로 전환되었습니다!");
+            messageInput.placeholder = "답장 작성 중...";
             messageInput.focus();
         } else if (password !== null) {
             alert("날 닮은 너~ 너 누구야~");
         }
     } else {
-        // 이미 답장 모드인 경우 모드 해제 여부 묻기
-        if (confirm("돌아가기")) {
+        if (confirm("일반 사용자 모드로 돌아가시겠습니까?")) {
             isArtistMode = false;
-            alert("휴~");
+            alert("일반 모드로 돌아왔습니다.");
             messageInput.placeholder = "마음 속 이야기를...";
         }
     }
@@ -57,10 +56,8 @@ chatForm.addEventListener('submit', (e) => {
     const text = messageInput.value.trim();
     if (!text) return;
 
-    // 현재 모드에 따라 senderType 결정 ('artist' 또는 'user')
     const senderType = isArtistMode ? 'artist' : 'user';
 
-    // 서버로 메시지와 보낸 사람 유형 전송
     socket.emit('chatMessage', { 
         text: text,
         senderType: senderType
@@ -69,7 +66,7 @@ chatForm.addEventListener('submit', (e) => {
     messageInput.value = '';
 });
 
-// 5️⃣ 서버로부터 실시간 메시지 수신 및 화면 출력
+// 5️⃣ 서버로부터 실시간 메시지 수신
 socket.on('message', (data) => {
     const text = typeof data === 'object' ? data.text : data;
     const senderType = data.senderType || 'user';
@@ -77,7 +74,6 @@ socket.on('message', (data) => {
     const groupDiv = document.createElement('div');
 
     if (senderType === 'artist') {
-        // 🟢 [아티스트 메시지] - 연두색 그라데이션 말풍선
         groupDiv.classList.add('message-group', 'other');
         groupDiv.innerHTML = `
             <img src="profile.png" class="msg-thumb" onerror="this.src='https://via.placeholder.com/32'">
@@ -90,7 +86,6 @@ socket.on('message', (data) => {
             </div>
         `;
     } else {
-        // ⚪ [일반 내 메시지] - 흰색 우측 정렬 말풍선
         groupDiv.classList.add('message-group', 'my');
         groupDiv.innerHTML = `
             <div class="msg-content">
@@ -106,17 +101,15 @@ socket.on('message', (data) => {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
-// 6️⃣ 서버에서 이전 대화 기록 로드 (DB 연결 시)
+// 6️⃣ 서버에서 이전 대화 기록 로드
 socket.on('loadHistory', (history) => {
     chatMessages.innerHTML = '';
     history.forEach(data => {
-        // 서버 message 이벤트 재활용
         socket.listeners('message')[0](data);
     });
     chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
-// 현재 시간 포맷 함수
 function getCurrentTime() {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
@@ -124,7 +117,6 @@ function getCurrentTime() {
     return `${hours}:${minutes}`;
 }
 
-// XSS 방지 특수문자 이스케이프 함수
 function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

@@ -5,25 +5,37 @@
     font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
 }
 
-body {
+/* 🟢 아이폰 화면 덜렁거림/바운스 및 검은 화면 해결 */
+html, body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: fixed;
+    touch-action: manipulation;
     background-color: #121212;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
 }
 
-/* 📱 모바일 프레임 컨테이너 */
+/* 📱 모바일 프레임 컨테이너 (아이폰 13 미니 맞춤) */
 .mobile-app {
     width: 100%;
     max-width: 390px;
-    height: 100%;
+    height: 100vh;
     max-height: 844px;
     background-color: #fff;
     position: relative;
     overflow: hidden;
-    border-radius: 0; /* 모바일 풀스크린 대비 */
+    border-radius: 0;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+}
+
+@media (min-width: 500px) {
+    .mobile-app {
+        height: 844px;
+        border-radius: 28px;
+    }
 }
 
 /* 화면 전환 기본 설정 */
@@ -121,45 +133,39 @@ body {
 /* 2️⃣ SCREEN 2 : 채팅 화면 (상/하단 독립 고정 배경) */
 /* ================================================== */
 .chat-screen {
-    /* 🖼️ [중앙 채팅 영역 독자 배경] */
     background: url('chat-bg.png') no-repeat center center #FFF963;
     background-size: cover;
     position: relative;
 }
 
-/* 📌 [최상단 고정 헤더] - 메시지 스크롤과 완전 분리 (z-index: 1000) */
-/* 📌 상단 헤더 전체 레이아웃 */
+/* 📌 최상단 고정 헤더 */
 .chat-header {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 64px;
-    
     background: url('header-bg.png') no-repeat center center rgba(255, 249, 99, 0.98);
     background-size: cover;
-    
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* 왼쪽부터 차례대로 정렬 */
-    gap: 8px;                    /* 홈 버튼과 프로필 사이의 미세 간격 (원하는 만큼 조정 가능) */
+    justify-content: flex-start;
+    gap: 8px;
     padding: 0 16px;
     z-index: 1000;
     border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
-/* 📌 뒤로가기/홈 버튼 */
 #back-btn {
-    flex-shrink: 0; /* 버튼 크기 고정 */
+    flex-shrink: 0;
 }
 
-/* 📌 프로필 영역 (동그란 이미지 + 이름) */
 .header-profile {
     display: flex;
     align-items: center;
-    gap: 8px;          /* 동그란 프사와 이름 사이 간격 */
-    margin-left: 0;    /* 왼쪽 여백 제거 */
-    margin-right: auto; /* ⭐ 프로필 영역 전체를 왼쪽으로 바짝 당기고 우측 공간을 다 비움 */
+    gap: 8px;
+    margin-left: 0;
+    margin-right: auto;
 }
 
 .header-thumb {
@@ -171,7 +177,7 @@ body {
 }
 
 .header-name {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: #000;
 }
@@ -191,31 +197,11 @@ body {
     object-fit: contain;
 }
 
-.header-profile {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.header-thumb {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 0px solid #333;
-}
-
-.header-name {
-    font-size: 18px;
-    font-weight: 700;
-    color: #000;
-}
-
-/* 📜 [중앙 메시지 스크롤 영역] */
+/* 📜 중앙 메시지 스크롤 영역 */
 .chat-messages {
     position: absolute;
-    top: 64px;    /* 헤더 높이만큼 뗌 */
-    bottom: 74px; /* 푸터 높이만큼 뗌 */
+    top: 64px;
+    bottom: 74px;
     left: 0;
     right: 0;
     overflow-y: auto;
@@ -223,10 +209,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    z-index: 1; /* 상/하단보다 뒤에 위치 */
+    z-index: 1;
 }
 
-/* 말풍선 레이아웃 */
 .message-group {
     display: flex;
     gap: 8px;
@@ -267,7 +252,6 @@ body {
     word-break: break-word;
 }
 
-/* 포닝 특유의 연두색 아티스트 말풍선 */
 .message.other-msg {
     background: linear-gradient(to bottom, #fbfefb, #a7e063);
     color: #000;
@@ -282,7 +266,6 @@ body {
     gap: 4px;
 }
 
-/* 내 말풍선 (우측 흰색) */
 .message.my-msg {
     background: #ffffff;
     color: #000;
@@ -323,20 +306,17 @@ body {
     margin: 8px 0;
 }
 
-/* 📌 [최하단 고정 입력창] - 메시지 스크롤과 완전 분리 (z-index: 1000) */
+/* 📌 최하단 고정 입력창 */
 .chat-footer {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 74px;
-    
-    /* 🖼️ 하단 푸터 개별 배경 이미지 설정 가능 */
     background: url('footer-bg.png') no-repeat center center rgba(255, 249, 99, 0.98);
     background-size: cover;
-    
     padding: 10px 14px 20px 14px;
-    z-index: 1000; /* 무조건 최상위 */
+    z-index: 1000;
     border-top: 1px solid rgba(0,0,0,0.06);
 }
 
