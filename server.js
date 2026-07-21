@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 });
 
 // 🟢 1) MongoDB 데이터베이스 연결 (아까 복사한 본인 주소로 교체하세요!)
-const MONGO_URI = process.env.MONGO_URI || "여기에_아까_복사한_MONGODB_주소_붙여넣기";
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://soyouth1229_db_user:<fDpIk7tU9xvmDoDW>@cluster0.9nxwegx.mongodb.net/?appName=Cluster0";
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log('✅ [DB] MongoDB 클라우드 연결 성공!'))
