@@ -99,8 +99,8 @@ html, body {
 
 .doodle-box {
     position: absolute;
-    left: 1px;
-    top: 16px;
+    left: -15px;
+    top: 25px;
 }
 
 .doodle-img {
