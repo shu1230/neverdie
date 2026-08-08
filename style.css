@@ -258,7 +258,7 @@ html, body {
     background: linear-gradient(to bottom, #fbfefb, #a7e063);
     color: #000;
     border-radius: 0px 17px 17px 17px;
-    border: 1px solid #000;
+    border: 1px solid #7bead7;
     display: inline-block;
 }
 
@@ -272,7 +272,7 @@ html, body {
     background: #ffffff;
     color: #000;
     border-radius: 17px 0px 17px 17px;
-    border: 1px solid #000;
+    border: 1px solid #90daa5;
 }
 
 .msg-my-wrapper {
