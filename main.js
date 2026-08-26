@@ -78,7 +78,7 @@ socket.on('message', (data) => {
         groupDiv.innerHTML = `
             <img src="profile.png" class="msg-thumb" onerror="this.src='https://via.placeholder.com/32'">
             <div class="msg-content">
-                <span class="msg-sender">맘이</span>
+                <span class="msg-sender">•૦•💗💗💗</span>
                 <div class="other-msg-container">
                     <div class="message other-msg">${escapeHtml(text)}</div>
                     <span class="msg-time">${getCurrentTime()}</span>
