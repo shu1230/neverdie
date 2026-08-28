@@ -275,7 +275,6 @@ html, body {
 /*받는 채팅*/
 .message.my-msg {
     background: linear-gradient(to bottom, #fbfefb, #fdf4ea);
-    background: url('chat-bg.png') no-repeat center center #FFF963;
     color: #000;
     border-radius: 17px 0px 17px 17px;
     border: 1px solid #000;
