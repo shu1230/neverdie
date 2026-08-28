@@ -1,6 +1,8 @@
+// 1. 소켓 서버 연결 (단 한번만 선언)
 const socket = io("https://neverdie-1.onrender.com");
 
-// DOM 요소 가져오기
+// 2. DOM 요소 가져오기
+const loadingOverlay = document.getElementById('loading-overlay');
 const screen1 = document.getElementById('screen-1');
 const screen2 = document.getElementById('screen-2');
 
@@ -15,6 +17,23 @@ const chatMessages = document.getElementById('chat-messages');
 // 👑 아티스트 답장 모드 상태 변수
 let isArtistMode = false;
 const ARTIST_PASSWORD = "12301995";
+
+// 🟢 [로딩 오버레이 끄기 함수]
+function hideLoading() {
+    if (loadingOverlay && !loadingOverlay.classList.contains('hidden')) {
+        loadingOverlay.classList.add('hidden');
+    }
+}
+
+// 🟢 서버 연결 성공 시 로딩 화면 제거
+socket.on('connect', () => {
+    hideLoading();
+});
+
+// 🟢 안전장치: 혹시나 연결이 10초 이상 지연되더라도 로딩창을 강제로 꺼서 화면 진입 허용
+setTimeout(() => {
+    hideLoading();
+}, 10000);
 
 // 1️⃣ 대화하기 버튼 클릭 시 채팅 화면으로 이동
 startChatBtn.addEventListener('click', () => {
@@ -103,6 +122,7 @@ socket.on('message', (data) => {
 
 // 6️⃣ 서버에서 이전 대화 기록 로드
 socket.on('loadHistory', (history) => {
+    hideLoading(); // 이전 대화 기록을 받을 때도 로딩 끄기
     chatMessages.innerHTML = '';
     history.forEach(data => {
         socket.listeners('message')[0](data);
