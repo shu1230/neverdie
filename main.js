@@ -1,8 +1,7 @@
-// 1. 소켓 서버 연결 (단 한번만 선언)
+// 1. 소켓 서버 연결
 const socket = io("https://neverdie-1.onrender.com");
 
 // 2. DOM 요소 가져오기
-const loadingOverlay = document.getElementById('loading-overlay');
 const screen1 = document.getElementById('screen-1');
 const screen2 = document.getElementById('screen-2');
 
@@ -14,62 +13,148 @@ const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
 const chatMessages = document.getElementById('chat-messages');
 
-// 👑 아티스트 답장 모드 상태 변수
-let isArtistMode = false;
-const ARTIST_PASSWORD = "12301995";
+// 동적 프로필/상태 메시지 DOM 요소 참조
+const mainProfileImg = document.getElementById('main-profile-img');
+const headerProfileImg = document.getElementById('header-profile-img');
 
-// 🟢 [로딩 오버레이 끄기 함수]
-function hideLoading() {
-    if (loadingOverlay && !loadingOverlay.classList.contains('hidden')) {
-        loadingOverlay.classList.add('hidden');
-    }
+const mainStatusMsg = document.getElementById('main-status-msg');
+
+const mainArtistName = document.getElementById('main-artist-name');
+const headerArtistName = document.getElementById('header-artist-name');
+
+// 바텀시트 메뉴 요소 참조
+const menuSheet = document.getElementById('menu-sheet');
+const closeSheetBtn = document.getElementById('close-sheet-btn');
+
+const btnChangeArtistName = document.getElementById('btn-change-artist-name');
+const btnChangeProfileImg = document.getElementById('btn-change-profile-img');
+const fileInputProfile = document.getElementById('file-input-profile');
+const btnToggleArtist = document.getElementById('btn-toggle-artist');
+const btnDeleteGuide = document.getElementById('btn-delete-guide');
+
+// 상태 및 데이터 불러오기 (localStorage 기반)
+let isArtistMode = false;
+let isAdmin = false; // 관리자 로그인 여부
+const ADMIN_PASSWORD = "12301995"; // 관리자 비밀번호 (중복 제거)
+
+let myNickname = localStorage.getItem('user_nickname') || '나';
+let profileImgUrl = localStorage.getItem('user_profile_img') || 'profile.png';
+let statusMsgText = localStorage.getItem('user_status_msg') || '엔터를 누르면 걍 전송이 됩니다 저도 지울 수 없습니다';
+let artistNameText = localStorage.getItem('user_artist_name') || '•૦•💗💗💗';
+
+// 🟢 초기 동적 데이터 화면 적용
+function applyStoredData() {
+    mainProfileImg.src = profileImgUrl;
+    headerProfileImg.src = profileImgUrl;
+
+    mainStatusMsg.innerText = statusMsgText;
+
+    mainArtistName.innerText = artistNameText;
+    headerArtistName.innerText = artistNameText;
 }
 
-// 🟢 서버 연결 성공 시 로딩 화면 제거
-socket.on('connect', () => {
-    hideLoading();
-});
+applyStoredData();
 
-// 🟢 안전장치: 혹시나 연결이 10초 이상 지연되더라도 로딩창을 강제로 꺼서 화면 진입 허용
-setTimeout(() => {
-    hideLoading();
-}, 10000);
-
-// 1️⃣ 대화하기 버튼 클릭 시 채팅 화면으로 이동
+// 화면 전환
 startChatBtn.addEventListener('click', () => {
     screen1.classList.remove('active');
     screen2.classList.add('active');
     chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
-// 2️⃣ 뒤로가기 버튼
 backBtn.addEventListener('click', () => {
     screen2.classList.remove('active');
     screen1.classList.add('active');
 });
 
-// 3️⃣ 우측 상단 비밀 버튼 클릭 -> 답장 모드 비밀번호 확인
+// 더보기(⋮) 클릭 시 비밀번호 확인 후 관리자 메뉴 오픈
 moreBtn.addEventListener('click', () => {
-    if (!isArtistMode) {
-        const password = prompt("비밀번호가 뭐야?");
-        if (password === ARTIST_PASSWORD) {
-            isArtistMode = true;
-            alert("알아냈어요?!");
-            messageInput.placeholder = "마음에게...";
-            messageInput.focus();
-        } else if (password !== null) {
-            alert("날 닮은 너~ 너 누구야~");
-        }
-    } else {
-        if (confirm("일반 모드")) {
-            isArtistMode = false;
-            alert("짠!");
-            messageInput.placeholder = "마음 속 이야기를...";
-        }
+    if (isAdmin) {
+        updateArtistModeButtonText();
+        menuSheet.classList.remove('hidden');
+        return;
+    }
+    const password = prompt("암호는?");
+    if (password === ADMIN_PASSWORD) {
+        isAdmin = true; // 관리자 로그인 성공 처리
+        updateArtistModeButtonText();
+        menuSheet.classList.remove('hidden');
+    } else if (password !== null) {
+        alert("제 영역입니닷!");
     }
 });
 
-// 4️⃣ 메시지 전송 이벤트
+closeSheetBtn.addEventListener('click', () => {
+    menuSheet.classList.add('hidden');
+});
+
+// 1️⃣ 아티스트 이름 설정
+btnChangeArtistName.addEventListener('click', () => {
+    const newName = prompt("새로운 이름을 입력하세요:", artistNameText);
+    if (newName && newName.trim() !== '') {
+        artistNameText = newName.trim();
+        localStorage.setItem('user_artist_name', artistNameText);
+        applyStoredData();
+        alert("짠!");
+    }
+});
+
+// 2️⃣ 프로필 이미지 직접 업로드 설정
+btnChangeProfileImg.addEventListener('click', () => {
+    menuSheet.classList.add('hidden');
+    fileInputProfile.click();
+});
+
+fileInputProfile.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            profileImgUrl = event.target.result;
+            localStorage.setItem('user_profile_img', profileImgUrl);
+            applyStoredData();
+            alert("프로필 사진이 변경되었습니다.");
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// 3️⃣ 답장 모드 (아티스트 ↔ 일반) 전환
+btnToggleArtist.addEventListener('click', () => {
+    isArtistMode = !isArtistMode;
+    if (isArtistMode) {
+        alert("답장 모드로 전환되었습니다.");
+        messageInput.placeholder = "답장을 입력해 주세요.";
+        screen2.classList.add('artist-mode-bg'); // 배경화면 2로 변경
+    } else {
+        alert("일반 모드로 전환되었습니다.");
+        messageInput.placeholder = "메시지를 입력해 주세요.";
+        screen2.classList.remove('artist-mode-bg'); // 원래 배경화면으로 복구
+    }
+    updateArtistModeButtonText();
+    menuSheet.classList.add('hidden');
+});
+
+function updateArtistModeButtonText() {
+    btnToggleArtist.innerText = isArtistMode 
+        ? "답장/삭제(현재: ON)" 
+        : "답장/삭제(현재: OFF)";
+}
+
+// 4️⃣ 메시지 삭제 기능 안내
+btnDeleteGuide.addEventListener('click', () => {
+    alert("채팅창에 등록된 메시지를 터치/클릭하면 삭제 여부를 묻는 창이 뜨며 바로 삭제할 수 있습니다.");
+    menuSheet.classList.add('hidden');
+});
+
+// 🟢 엔터 누를 때 전송 방지 및 줄바꿈 허용
+messageInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.stopPropagation(); 
+    }
+});
+
+// 메시지 전송 (우측 버튼 클릭 시에만 단일 실행)
 chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const text = messageInput.value.trim();
@@ -79,25 +164,29 @@ chatForm.addEventListener('submit', (e) => {
 
     socket.emit('chatMessage', { 
         text: text,
-        senderType: senderType
+        senderType: senderType,
+        senderName: myNickname,
+        msgId: Date.now() + '_' + Math.random().toString(36).substr(2, 4)
     });
 
     messageInput.value = '';
 });
 
-// 5️⃣ 서버로부터 실시간 메시지 수신
+// 수신 및 메시지 렌더링
 socket.on('message', (data) => {
     const text = typeof data === 'object' ? data.text : data;
     const senderType = data.senderType || 'user';
+    const msgId = data.msgId || Date.now();
 
     const groupDiv = document.createElement('div');
+    groupDiv.setAttribute('data-id', msgId);
 
     if (senderType === 'artist') {
         groupDiv.classList.add('message-group', 'other');
         groupDiv.innerHTML = `
-            <img src="profile.png" class="msg-thumb" onerror="this.src='https://via.placeholder.com/32'">
+            <img src="${profileImgUrl}" class="msg-thumb" onerror="this.src='https://via.placeholder.com/32'">
             <div class="msg-content">
-                <span class="msg-sender">•૦•💗💗💗</span>
+                <span class="msg-sender">${artistNameText}</span>
                 <div class="other-msg-container">
                     <div class="message other-msg">${escapeHtml(text)}</div>
                     <span class="msg-time">${getCurrentTime()}</span>
@@ -116,13 +205,22 @@ socket.on('message', (data) => {
         `;
     }
 
+    // 클릭 시 메시지 삭제 기능 (관리자 전용)
+    const msgBubble = groupDiv.querySelector('.message');
+    msgBubble.addEventListener('click', () => {
+        if (!isAdmin) return; // 관리자가 아니면 무시
+
+        if (confirm("메시지를 삭제하시겠습니까?")) {
+            groupDiv.remove();
+        }
+    });
+
     chatMessages.appendChild(groupDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
-// 6️⃣ 서버에서 이전 대화 기록 로드
+// 이전 대화 기록 로드
 socket.on('loadHistory', (history) => {
-    hideLoading(); // 이전 대화 기록을 받을 때도 로딩 끄기
     chatMessages.innerHTML = '';
     history.forEach(data => {
         socket.listeners('message')[0](data);

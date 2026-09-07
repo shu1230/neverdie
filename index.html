@@ -9,33 +9,20 @@
 <body>
 
     <div class="mobile-app">
-        
-        <!-- 🟢 커스텀 로딩 화면 -->
-<div id="loading-overlay" class="loading-screen">
-    <!-- 하트 세 개가 들어가는 컨테이너 -->
-    <div class="heart-container">
-        <!-- 위쪽 큰 하트 -->
-        <img src="heart1.png" alt="heart1" class="heart-img heart-1">
-        <!-- 가운데 오른쪽 중간 하트 -->
-        <img src="heart2.png" alt="heart2" class="heart-2 heart-img">
-        <!-- 아래쪽 가장 큰 하트 -->
-        <img src="heart3.png" alt="heart3" class="heart-3 heart-img">
-    </div>
-</div>
 
         <!-- 1️⃣ 메인 프로필 카드 화면 -->
         <div id="screen-1" class="screen active">
             <div class="profile-card">
                 <div class="profile-img-box">
-                    <img src="profile.png" alt="Profile" class="artist-photo" onerror="this.src='https://via.placeholder.com/300x300?text=Profile+Photo'">
+                    <img id="main-profile-img" src="profile.png" alt="Profile" class="artist-photo" onerror="this.src='https://via.placeholder.com/300x300?text=Profile+Photo'">
                 </div>
 
                 <div class="card-info">
                     <div class="doodle-box">
                         <img src="doodle.png" alt="doodle" class="doodle-img" onerror="this.style.display='none'">
                     </div>
-                    <h2 class="artist-name">•૦•💗💗💗</h2>
-                    <span class="music-icon">엔터를 누르면 걍 전송이 됩니다 저도 지울 수 없습니다</span>
+                    <h2 id="main-artist-name" class="artist-name">•૦•💗💗💗</h2>
+                    <span id="main-status-msg" class="music-icon">엔터를 누르면 걍 전송이 됩니다 저도 지울 수 없습니다</span>
                     <button id="start-chat-btn" class="chat-start-btn">대화하기</button>
                 </div>
             </div>
@@ -51,10 +38,11 @@
                 </button>
                 
                 <div class="header-profile">
-                    <img src="profile.png" alt="Profile" class="header-thumb" onerror="this.src='https://via.placeholder.com/40'">
-                    <span class="header-name">•૦•💗💗💗</span>
+                    <img id="header-profile-img" src="profile.png" alt="Profile" class="header-thumb" onerror="this.src='https://via.placeholder.com/40'">
+                    <span id="header-artist-name" class="header-name">•૦•💗💗💗</span>
                 </div>
                 
+                <!-- 🟢 더보기 버튼 (비밀번호 인증 후 관리자 메뉴 실행) -->
                 <button id="more-btn" class="header-btn">
                     <img src="icon-more.png" alt="more" class="icon-img" onerror="this.style.display='none'; this.parentNode.innerText='⋮'">
                 </button>
@@ -66,13 +54,28 @@
             <!-- 하단 입력창 -->
             <footer class="chat-footer">
                 <form id="chat-form" class="input-form">
-                    <input type="text" id="message-input" placeholder="마음 속 이야기를..." autocomplete="off">
-                    <button type="submit" class="send-btn">
-                        <img src="icon-send.png" alt="send" class="send-icon-img" onerror="this.style.display='none'; this.parentNode.innerText='➤'">
-                    </button>
-                </form>
-            </footer>
+                    <textarea id="message-input" placeholder="메시지를 입력해 주세요." rows="1" autocomplete="off"></textarea>
+        <button type="submit" class="send-btn">
+            <img src="icon-send.png" alt="send" class="send-icon-img" onerror="this.style.display='none'; this.parentNode.innerText='➤'">
+        </button>
+    </form>
+</footer>
 
+        </div>
+
+        <!-- 🟢 관리자 설정 메뉴 바텀시트 -->
+        <div id="menu-sheet" class="modal-overlay bottom-sheet-overlay hidden">
+            <div class="bottom-sheet">
+                <div class="sheet-handle"></div>
+                <!-- 이미지 파일 선택 태그 (숨김) -->
+                <input type="file" id="file-input-profile" accept="image/*" style="display: none;">
+                
+                <button id="btn-change-artist-name" class="sheet-btn">이름 설정</button>
+                <button id="btn-change-profile-img" class="sheet-btn">프로필 이미지 설정</button>
+                <button id="btn-toggle-artist" class="sheet-btn highlight">답장/삭제</button>
+                <button id="btn-delete-guide" class="sheet-btn">메시지 삭제 방법 안내</button>
+                <button id="close-sheet-btn" class="sheet-btn cancel">취소</button>
+            </div>
         </div>
 
     </div>

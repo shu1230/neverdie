@@ -18,7 +18,7 @@ html, body {
     align-items: center;
 }
 
-/* 📱 모바일 프레임 컨테이너 (아이폰 13 미니 맞춤) */
+/* 📱 모바일 프레임 컨테이너 */
 .mobile-app {
     width: 100%;
     max-width: 390px;
@@ -38,7 +38,6 @@ html, body {
     }
 }
 
-/* 화면 전환 기본 설정 */
 .screen {
     display: none !important;
     width: 100%;
@@ -53,9 +52,7 @@ html, body {
     flex-direction: column;
 }
 
-/* ================================================== */
 /* 1️⃣ SCREEN 1 : 프로필 카드 */
-/* ================================================== */
 #screen-1 {
     background: url('bg.png') no-repeat center center #a8d8ea;
     background-size: cover;
@@ -70,7 +67,6 @@ html, body {
     background: #ffffff;
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 0px 0px rgba(0,0,0,0.15);
     display: flex;
     flex-direction: column;
     border: 1px solid #000;
@@ -117,31 +113,28 @@ html, body {
 .music-icon {
     font-size: 12px;
     margin: 10px 0 16px 0;
+    text-align: center;
 }
 
-/* 🟢 [수정] 대화하기 버튼 텍스트 색상을 검정색(#000)으로 명시적 고정 */
-/*대화하기 버튼 색깔 오리지널:a4e05a*/
+/* 대화하기 */
 .chat-start-btn {
-    background: linear-gradient(180deg, #f7faf3 10%, #f8d68b 90%);
+    background: linear-gradient(180deg, #f7faf3 10%, #96e44c 90%);
     border: 1px solid #000;
     padding: 9px 19px;
     border-radius: 20px;
     font-weight: bold;
     font-size: 16px;
-    color: #000000 !important; /* 👈 검은색 강제 고정 */
+    color: #000000 !important;
     cursor: pointer;
 }
 
-/* ================================================== */
-/* 2️⃣ SCREEN 2 : 채팅 화면 (상/하단 독립 고정 배경) */
-/* ================================================== */
+/* 2️⃣ SCREEN 2 : 채팅 화면 */
 .chat-screen {
     background: url('chat-bg.png') no-repeat center center #FFF963;
     background-size: cover;
     position: relative;
 }
 
-/* 📌 최상단 고정 헤더 */
 .chat-header {
     position: absolute;
     top: 0;
@@ -156,18 +149,12 @@ html, body {
     gap: 8px;
     padding: 0 16px;
     z-index: 1000;
-    border-bottom: 0px solid rgba(0,0,0,0.06);
-}
-
-#back-btn {
-    flex-shrink: 0;
 }
 
 .header-profile {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-left: 0;
     margin-right: auto;
 }
 
@@ -176,7 +163,6 @@ html, body {
     height: 30px;
     border-radius: 50%;
     object-fit: cover;
-    border: 0px solid #333;
 }
 
 .header-name {
@@ -200,11 +186,10 @@ html, body {
     object-fit: contain;
 }
 
-/* 📜 중앙 메시지 스크롤 영역 (하단 푸터 높이에 맞춰 bottom 조정) */
 .chat-messages {
     position: absolute;
     top: 64px;
-    bottom: 100px; /* 🟢 90px -> 100px로 변경 */
+    bottom: 100px;
     left: 0;
     right: 0;
     overflow-y: auto;
@@ -229,7 +214,6 @@ html, body {
     align-self: flex-end;
 }
 
-/*프사 위치*/
 .msg-thumb {
     width: 24px;
     height: 24px;
@@ -251,15 +235,16 @@ html, body {
 }
 
 .message {
-    padding: 8px 14px;
+    padding: 8px 11px;
     font-size: 13.5px;
     line-height: 1.4;
     word-break: break-word;
+    cursor: pointer;
+    user-select: none;
 }
 
-/*답장 메시지 색깔*/
 .message.other-msg {
-    background: linear-gradient(to bottom, #fbfefb, #f8d68b);
+    background: linear-gradient(to bottom, #fff, #96e44c);
     color: #000;
     border-radius: 0px 17px 17px 17px;
     border: 1px solid #000;
@@ -272,9 +257,10 @@ html, body {
     gap: 4px;
 }
 
-/*받는 채팅*/
+/*linear-gradient(to bottom, #fbfefb, #fdf4ea)*/
+
 .message.my-msg {
-    background: linear-gradient(to bottom, #fbfefb, #fdf4ea);
+    background: #fff;
     color: #000;
     border-radius: 17px 0px 17px 17px;
     border: 1px solid #000;
@@ -286,43 +272,20 @@ html, body {
     gap: 4px;
 }
 
-.read-check {
-    font-size: 11px;
-    color: #22c55e;
-    font-weight: bold;
-}
-
 .msg-time {
     font-size: 10px;
     color: #666;
 }
 
-.trans-icon {
-    font-size: 10px;
-    color: #888;
-    margin-left: 4px;
-}
-
-.date-divider {
-    align-self: center;
-    background: rgba(0, 0, 0, 0.25);
-    color: #fff;
-    font-size: 11px;
-    padding: 4px 12px;
-    border-radius: 12px;
-    margin: 8px 0;
-}
-
-/* 📌 최하단 고정 입력창 */
 .chat-footer {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 100px; /* 🟢 90px -> 100px로 10px 확대 */
+    height: 100px;
     background: url('footer-bg.png') no-repeat center center rgba(255, 249, 99, 0.98);
     background-size: cover;
-    padding: 8px 14px 44px 14px; /* 🟢 아래 여백(padding-bottom)을 34px -> 44px로 10px 올려줌 */
+    padding: 8px 14px 44px 14px;
     z-index: 1000;
     border-top: 1px solid #000;
 }
@@ -334,7 +297,22 @@ html, body {
     border: 1px solid #000000;
     border-radius: 30px;
     padding: 6px 14px;
-    height: 42px;
+    min-height: 40px;
+    max-height: 40px; /* 여러 줄 입력 시 최대 높이 */
+}
+
+/* 🟢 textarea 전용 스타일 추가 */
+.input-form textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background: transparent;
+    resize: none; /* 크기 조절 핸들 제거 */
+    height: 24px;
+    max-height: 60px;
+    line-height: 1.4;
+    font-family: inherit;
 }
 
 .input-form input[type="text"] {
@@ -362,80 +340,71 @@ html, body {
 }
 
 /* ================================================== */
-/* 🟢 로딩 화면 & 흔들리는 하트 애니메이션 */
+/* 🟢 바텀시트 UI 스타일 */
 /* ================================================== */
-.loading-screen {
+.modal-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('bg.png') no-repeat center center #a8d8ea;
-    background-size: cover;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 10000;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-.loading-screen.hidden {
-    opacity: 0;
-    visibility: hidden;
+.modal-overlay.hidden {
+    display: none !important;
 }
 
-/* 하트들을 감싸는 영역 (비율 유지용) */
-.heart-container {
-    position: relative;
-    width: 320px;
-    height: 480px;
+.bottom-sheet-overlay {
+    align-items: flex-end;
 }
 
-/* 하트 공통 스타일 */
-.heart-img {
-    position: absolute;
-    object-fit: contain;
-    /* 아이폰 흔들림 애니메이션 적용 */
-    animation: iphone-wiggle 1s ease-in-out infinite alternate;
+.bottom-sheet {
+    width: 100%;
+    background: #ffffff;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-top: 1px solid #000;
 }
 
-/* 1️⃣ 위쪽 하트 (heart1.png) */
-.heart-1 {
-    width: 210px;
-    top: 20px;
-    left: 15px;
-    z-index: 1;
-    animation-delay: 0s; /* 각 하트마다 박자를 약간 다르게 주어 자연스럽게 연출 */
+.sheet-handle {
+    width: 36px;
+    height: 4px;
+    background: #ccc;
+    border-radius: 2px;
+    align-self: center;
+    margin-bottom: 8px;
 }
 
-/* 2️⃣ 오른쪽 중간 하트 (heart2.png) */
-.heart-2 {
-    width: 160px;
-    top: 130px;
-    right: 15px;
-    z-index: 2;
-    animation-delay: 0.08s;
+.sheet-btn {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #eee;
+    background: #fff;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
 }
 
-/* 3️⃣ 아래쪽 하트 (heart3.png) */
-.heart-3 {
-    width: 270px;
-    bottom: 20px;
-    left: 25px;
-    z-index: 3;
-    animation-delay: 0.15s;
+.sheet-btn.highlight {
+    background: #FFF963;
+    border-color: #000;
 }
 
-/* 📱 아이폰 어플 꾹 누를 때의 양옆 흔들림(Wiggle) 애니메이션 keyframes */
-@keyframes iphone-wiggle {
-    0% {
-        transform: rotate(-2.5deg) scale(1);
-    }
-    50% {
-        transform: rotate(0deg) scale(1.02);
-    }
-    100% {
-        transform: rotate(2.5deg) scale(1);
-    }
+.sheet-btn.cancel {
+    background: #f5f5f5;
+    border: none;
+}
+
+.chat-screen.artist-mode-bg {
+    background-image: url('bg2.png') !important;
 }
