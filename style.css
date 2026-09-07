@@ -241,6 +241,7 @@ html, body {
     word-break: break-word;
     cursor: pointer;
     user-select: none;
+    white-space: pre-wrap;
 }
 
 .message.other-msg {

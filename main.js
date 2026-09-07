@@ -31,6 +31,7 @@ const btnChangeProfileImg = document.getElementById('btn-change-profile-img');
 const fileInputProfile = document.getElementById('file-input-profile');
 const btnToggleArtist = document.getElementById('btn-toggle-artist');
 const btnDeleteGuide = document.getElementById('btn-delete-guide');
+const btnChangeStatusMsg = document.getElementById('btn-change-status-msg');
 
 // 상태 및 데이터 불러오기 (localStorage 기반)
 let isArtistMode = false;
@@ -81,6 +82,17 @@ moreBtn.addEventListener('click', () => {
         menuSheet.classList.remove('hidden');
     } else if (password !== null) {
         alert("제 영역입니닷!");
+    }
+});
+
+// 🟢 상태 메시지 변경 이벤트
+btnChangeStatusMsg.addEventListener('click', () => {
+    const newStatus = prompt("새로운 상태 메시지를 입력하세요:", statusMsgText);
+    if (newStatus !== null) {
+        statusMsgText = newStatus.trim();
+        localStorage.setItem('user_status_msg', statusMsgText);
+        applyStoredData();
+        alert("상태 메시지가 변경되었습니다.");
     }
 });
 
