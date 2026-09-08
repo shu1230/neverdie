@@ -40,7 +40,7 @@ const ADMIN_PASSWORD = "12301995"; // 관리자 비밀번호 (중복 제거)
 
 let myNickname = localStorage.getItem('user_nickname') || '나';
 let profileImgUrl = localStorage.getItem('user_profile_img') || 'profile.png';
-let statusMsgText = localStorage.getItem('user_status_msg') || '엔터를 누르면 걍 전송이 됩니다 저도 지울 수 없습니다';
+let statusMsgText = localStorage.getItem('user_status_msg') || '감기 조심! 비염 조심!';
 let artistNameText = localStorage.getItem('user_artist_name') || '•૦•💗💗💗';
 
 // 🟢 초기 동적 데이터 화면 적용
