@@ -39,8 +39,8 @@ let isAdmin = false; // 관리자 로그인 여부
 const ADMIN_PASSWORD = "12301995"; // 관리자 비밀번호 (중복 제거)
 
 let myNickname = localStorage.getItem('user_nickname') || '나';
-let profileImgUrl = localStorage.getItem('user_profile_img') || 'profile.jpg';
-let statusMsgText = localStorage.getItem('user_status_msg') || '감기 조심! 비염 조심!';
+let profileImgUrl = localStorage.getItem('user_profile_img') || 'profile.png';
+let statusMsgText = localStorage.getItem('user_status_msg') || '감기 조심하세요...🤧';
 let artistNameText = localStorage.getItem('user_artist_name') || '•૦•💗💗💗';
 
 // 🟢 초기 동적 데이터 화면 적용
