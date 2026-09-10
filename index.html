@@ -57,6 +57,17 @@
                 <form id="chat-form" class="input-form">
                     <!-- 숨겨진 채팅 전용 이미지 파일 인풋 -->
                     <input type="file" id="chat-image-input" accept="image/*" style="display: none;">
+
+                    <!-- index.html (채팅 입력폼 부분) -->
+<form id="chat-form" class="chat-form">
+    <!-- 🟢 입력창 상단에 표시될 이미지 첨부 버튼 -->
+    <button type="button" id="btn-attach-image" class="attach-image-btn hidden">이미지 첨부</button>
+    
+    <div class="input-wrapper">
+        <textarea id="message-input" placeholder="메시지를 입력해 주세요." rows="1"></textarea>
+        <button type="submit" id="send-btn">전송</button>
+    </div>
+</form>
                     
                     <textarea id="message-input" placeholder="메시지를 입력해 주세요." rows="1" autocomplete="off"></textarea>
                     <button type="submit" class="send-btn" id="send-btn">

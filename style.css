@@ -429,3 +429,40 @@ html, body {
 .chat-screen.artist-mode-bg {
     background-image: url('bg2.png') !important;
 }
+
+/* style.css 하단에 추가 */
+
+.chat-form {
+    position: relative; /* 버튼의 기준점 */
+}
+
+/* 🟢 이미지 첨부 버튼 스타일 (알약 모양 & 화이트-블루 그라데이션) */
+.attach-image-btn {
+    position: absolute;
+    top: -42px; /* 입력창 상단 중앙 위치 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    
+    /* 화이트-블루 그라데이션 및 1px FFF 테두리 */
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    border: 1px solid #ffffff;
+    border-radius: 20px; /* 알약 모양 */
+    
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.attach-image-btn:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+.attach-image-btn.hidden {
+    display: none;
+}
