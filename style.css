@@ -200,6 +200,7 @@ html, body {
     z-index: 1;
 }
 
+/* 이미지 및 텍스트 공통 말풍선 가로 수치 고정 */
 .message-group {
     display: flex;
     gap: 8px;
@@ -234,37 +235,10 @@ html, body {
     color: #171717;
 }
 
-.message {
-    padding: 8px 11px;
-    font-size: 13.5px;
-    line-height: 1.4;
-    word-break: break-word;
-    cursor: pointer;
-    user-select: none;
-    white-space: pre-wrap;
-}
-
-.message.other-msg {
-    background: linear-gradient(to bottom, #fff, #96e44c);
-    color: #000;
-    border-radius: 0px 17px 17px 17px;
-    border: 1px solid #000;
-    display: inline-block;
-}
-
 .other-msg-container {
     display: flex;
     align-items: flex-end;
     gap: 4px;
-}
-
-/*linear-gradient(to bottom, #fbfefb, #fdf4ea)*/
-
-.message.my-msg {
-    background: #fff;
-    color: #000;
-    border-radius: 17px 0px 17px 17px;
-    border: 1px solid #000;
 }
 
 .msg-my-wrapper {
@@ -278,6 +252,59 @@ html, body {
     color: #666;
 }
 
+/* 텍스트 메시지 버블 기준 최대 너비 설정 */
+.message {
+    padding: 8px 11px;
+    font-size: 13.5px;
+    line-height: 1.4;
+    word-break: break-word;
+    cursor: pointer;
+    user-select: none;
+    white-space: pre-wrap;
+    max-width: 230px; /* 말풍선의 가장 긴 너비 */
+}
+
+.message.other-msg {
+    background: linear-gradient(to bottom, #fff, #96e44c);
+    color: #000;
+    border-radius: 0px 17px 17px 17px;
+    border: 1px solid #000;
+    display: inline-block;
+}
+
+.message.my-msg {
+    background: #fff;
+    color: #000;
+    border-radius: 17px 0px 17px 17px;
+    border: 1px solid #000;
+}
+
+/* 🟢 전송된 이미지 말풍선 스타일 */
+.msg-img-container {
+    max-width: 230px; /* 텍스트 말풍선 최대 폭과 동일 */
+    display: inline-block;
+    cursor: pointer;
+}
+
+.msg-img {
+    width: 100%;
+    height: auto; /* 비율 유지 */
+    display: block;
+    border: 1px solid #000; /* 1px 검은 획 */
+    pointer-events: none; /* 클릭 이벤트 차단 */
+    object-fit: contain;
+}
+
+/* 말풍선과 동일한 모서리 곡률 적용 */
+.other-img-msg .msg-img {
+    border-radius: 0px 17px 17px 17px;
+}
+
+.my-img-msg .msg-img {
+    border-radius: 17px 0px 17px 17px;
+}
+
+/* 🟢 입력창 및 하단바 */
 .chat-footer {
     position: absolute;
     bottom: 0;
@@ -289,6 +316,7 @@ html, body {
     padding: 8px 14px 44px 14px;
     z-index: 1000;
     border-top: 1px solid #000;
+    box-sizing: border-box;
 }
 
 .input-form {
@@ -298,30 +326,22 @@ html, body {
     border: 1px solid #000000;
     border-radius: 30px;
     padding: 6px 14px;
-    min-height: 40px;
-    max-height: 40px; /* 여러 줄 입력 시 최대 높이 */
+    height: 44px; /* 고정 높이 지정 */
+    box-sizing: border-box;
 }
 
-/* 🟢 textarea 전용 스타일 추가 */
 .input-form textarea {
     flex: 1;
     border: none;
     outline: none;
     font-size: 14px;
     background: transparent;
-    resize: none; /* 크기 조절 핸들 제거 */
-    height: 24px;
-    max-height: 60px;
+    resize: none;
+    height: 22px;
     line-height: 1.4;
     font-family: inherit;
-}
-
-.input-form input[type="text"] {
-    flex: 1;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    background: transparent;
+    padding: 0;
+    margin: 0;
 }
 
 .send-btn {

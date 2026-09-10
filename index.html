@@ -1,3 +1,4 @@
+<!-- index_4.html -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -54,32 +55,45 @@
             <!-- 하단 입력창 -->
             <footer class="chat-footer">
                 <form id="chat-form" class="input-form">
+                    <!-- 숨겨진 채팅 전용 이미지 파일 인풋 -->
+                    <input type="file" id="chat-image-input" accept="image/*" style="display: none;">
+                    
                     <textarea id="message-input" placeholder="메시지를 입력해 주세요." rows="1" autocomplete="off"></textarea>
-        <button type="submit" class="send-btn">
-            <img src="icon-send.png" alt="send" class="send-icon-img" onerror="this.style.display='none'; this.parentNode.innerText='➤'">
-        </button>
-    </form>
-</footer>
+                    <button type="submit" class="send-btn" id="send-btn">
+                        <img src="icon-send.png" alt="send" class="send-icon-img" onerror="this.style.display='none'; this.parentNode.innerText='➤'">
+                    </button>
+                </form>
+            </footer>
 
         </div>
 
         <!-- 🟢 관리자 설정 메뉴 바텀시트 -->
-        <!-- 🟢 관리자 설정 메뉴 바텀시트 -->
-<div id="menu-sheet" class="modal-overlay bottom-sheet-overlay hidden">
-    <div class="bottom-sheet">
-        <div class="sheet-handle"></div>
-        <!-- 이미지 파일 선택 태그 (숨김) -->
-        <input type="file" id="file-input-profile" accept="image/*" style="display: none;">
-        
-        <button id="btn-change-artist-name" class="sheet-btn">이름 설정</button>
-        <!-- 🟢 상태 메시지 설정 버튼 추가 -->
-        <button id="btn-change-status-msg" class="sheet-btn">상태 메시지 설정</button>
-        <button id="btn-change-profile-img" class="sheet-btn">프로필 이미지 설정</button>
-        <button id="btn-toggle-artist" class="sheet-btn highlight">답장/삭제</button>
-        <button id="btn-delete-guide" class="sheet-btn">메시지 삭제 방법 안내</button>
-        <button id="close-sheet-btn" class="sheet-btn cancel">취소</button>
+        <div id="menu-sheet" class="modal-overlay bottom-sheet-overlay hidden">
+            <div class="bottom-sheet">
+                <div class="sheet-handle"></div>
+                <!-- 이미지 파일 선택 태그 (숨김) -->
+                <input type="file" id="file-input-profile" accept="image/*" style="display: none;">
+                
+                <button id="btn-change-artist-name" class="sheet-btn">이름 설정</button>
+                <button id="btn-change-status-msg" class="sheet-btn">상태 메시지 설정</button>
+                <button id="btn-change-profile-img" class="sheet-btn">프로필 이미지 설정</button>
+                <button id="btn-toggle-artist" class="sheet-btn highlight">답장/삭제</button>
+                <button id="btn-delete-guide" class="sheet-btn">메시지 삭제 방법 안내</button>
+                <button id="close-sheet-btn" class="sheet-btn cancel">취소</button>
+            </div>
+        </div>
+
+        <!-- 🟢 관리자 전송 옵션 바텀시트 (텍스트 vs 이미지 선택) -->
+        <div id="send-option-sheet" class="modal-overlay bottom-sheet-overlay hidden">
+            <div class="bottom-sheet">
+                <div class="sheet-handle"></div>
+                <button id="btn-send-text" class="sheet-btn highlight">메시지 전송</button>
+                <button id="btn-send-image" class="sheet-btn">사진 첨부 및 전송</button>
+                <button id="close-send-option-btn" class="sheet-btn cancel">취소</button>
+            </div>
+        </div>
+
     </div>
-</div>
 
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script src="main.js"></script>
