@@ -17,7 +17,6 @@ const chatMessages = document.getElementById('chat-messages');
 
 // 채팅용 이미지 관련 DOM
 const chatImageInput = document.getElementById('chat-image-input');
-const btnAttachImage = document.getElementById('btn-attach-image'); // 🟢 새 이미지 첨부 버튼
 const sendOptionSheet = document.getElementById('send-option-sheet');
 const btnSendText = document.getElementById('btn-send-text');
 const btnSendImage = document.getElementById('btn-send-image');
@@ -89,25 +88,6 @@ moreBtn.addEventListener('click', () => {
     } else if (password !== null) {
         alert("제 영역입니닷!");
     }
-});
-
-// 🟢 입력창 클릭(포커스) ➝ 이미지 첨부 버튼 표시
-messageInput.addEventListener('focus', () => {
-    btnAttachImage.classList.remove('hidden');
-});
-
-// 🟢 입력창 및 버튼 영역 외 클릭 시 버튼 숨김 (딜레이 처리로 클릭 허용)
-messageInput.addEventListener('blur', () => {
-    setTimeout(() => {
-        if (document.activeElement !== btnAttachImage) {
-            btnAttachImage.classList.add('hidden');
-        }
-    }, 200);
-});
-
-// 🟢 '이미지 첨부' 버튼 클릭 시 파일 선택창 열기
-btnAttachImage.addEventListener('click', () => {
-    chatImageInput.click();
 });
 
 // 🟢 상태 메시지 변경 이벤트
@@ -190,7 +170,7 @@ messageInput.addEventListener('keydown', (e) => {
     }
 });
 
-// 🟢 메시지 전송 이벤트
+// 🟢 메시지 전송 이벤트 (관리자 모드 분기)
 chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -209,6 +189,12 @@ btnSendText.addEventListener('click', () => {
 
 btnSendImage.addEventListener('click', () => {
     sendOptionSheet.classList.add('hidden');
+    
+    // 🔒 관리자 권한 확인 후 이미지 전송창 오픈
+    if (!isAdmin) {
+        alert("이미지 전송은 관리자만 가능합니다.");
+        return;
+    }
     chatImageInput.click();
 });
 
@@ -243,8 +229,15 @@ function compressImage(file, maxWidth, quality, callback) {
     reader.readAsDataURL(file);
 }
 
-// 🟢 이미지 선택 시 즉시 전송 (누구나 가능)
+// 이미지 파일 선택 후 전송
 chatImageInput.addEventListener('change', (e) => {
+    // 🔒 2중 안전 검사: 관리자만 전송 가능
+    if (!isAdmin) {
+        alert("이미지는 관리자만 전송할 수 있습니다.");
+        chatImageInput.value = '';
+        return;
+    }
+
     const file = e.target.files[0];
     if (file) {
         compressImage(file, 600, 0.7, (compressedDataUrl) => {
@@ -259,7 +252,6 @@ chatImageInput.addEventListener('change', (e) => {
             });
 
             chatImageInput.value = '';
-            btnAttachImage.classList.add('hidden'); // 전송 후 버튼 숨김
         });
     }
 });
@@ -280,7 +272,6 @@ function executeTextSend() {
     });
 
     messageInput.value = '';
-    btnAttachImage.classList.add('hidden');
 }
 
 // 🟢 메시지 HTML 생성 및 렌더링
@@ -293,6 +284,7 @@ function renderMessage(data) {
     let messageType = isObject ? (data.messageType || 'text') : 'text';
     const msgId = isObject ? data.msgId : null;
 
+    // 🟢 안전장치: text가 base64 이미지 데이터 패턴을 가진 경우 강제로 image 타입 설정
     if (typeof text === 'string' && text.startsWith('data:image/')) {
         messageType = 'image';
     }
@@ -304,6 +296,7 @@ function renderMessage(data) {
 
     let contentHtml = '';
     
+    // 이미지/텍스트 조건 분기
     if (messageType === 'image') {
         const imgClass = senderType === 'artist' ? 'other-img-msg' : 'my-img-msg';
         contentHtml = `
@@ -340,7 +333,7 @@ function renderMessage(data) {
         `;
     }
 
-    // 영구 삭제 이벤트 연동 (관리자 로그인 시 작동)
+    // 🟢 영구 삭제 이벤트 연동 (관리자 로그인 시 작동)
     const clickableArea = groupDiv.querySelector('.delete-target');
     if (clickableArea) {
         clickableArea.addEventListener('click', () => {
@@ -374,7 +367,7 @@ socket.on('loadHistory', (history) => {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
-// 서버로부터 삭제된 메시지 ID 알림을 받아 화면에서 완전히 제거
+// 🟢 서버로부터 삭제된 메시지 ID 알림을 받아 화면에서 완전히 제거
 socket.on('messageDeleted', (deletedMsgId) => {
     const targetEl = document.querySelector(`[data-id="${deletedMsgId}"]`);
     if (targetEl) {
