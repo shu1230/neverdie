@@ -47,7 +47,7 @@ const ADMIN_PASSWORD = "12301995";
 
 let myNickname = localStorage.getItem('user_nickname') || '나';
 let profileImgUrl = localStorage.getItem('user_profile_img') || 'profile.png';
-let statusMsgText = localStorage.getItem('user_status_msg') || '감기 조심하세요...🤧';
+let statusMsgText = localStorage.getItem('user_status_msg') || '맘모스~🐘';
 let artistNameText = localStorage.getItem('user_artist_name') || '•૦•💗💗💗';
 
 // 🟢 초기 동적 데이터 화면 적용
