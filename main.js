@@ -47,6 +47,8 @@ const ADMIN_PASSWORD = "12301995";
 
 let myNickname = localStorage.getItem('user_nickname') || '나';
 let profileImgUrl = localStorage.getItem('user_profile_img') || 'profile.png';
+
+// 🟢 상태 메시지를 '맘모스~🐘'로 변경
 let statusMsgText = localStorage.getItem('user_status_msg') || '맘모스~🐘';
 let artistNameText = localStorage.getItem('user_artist_name') || '•૦•💗💗💗';
 
@@ -94,7 +96,7 @@ moreBtn.addEventListener('click', () => {
 btnChangeStatusMsg.addEventListener('click', () => {
     const newStatus = prompt("새로운 상태 메시지를 입력하세요:", statusMsgText);
     if (newStatus !== null) {
-        statusMsgText = newStatus.trim();
+        statusMsgText = newStatus.trim() || '맘모스~🐘';
         localStorage.setItem('user_status_msg', statusMsgText);
         applyStoredData();
         alert("상태 메시지가 변경되었습니다.");
@@ -162,13 +164,8 @@ btnDeleteGuide.addEventListener('click', () => {
     menuSheet.classList.add('hidden');
 });
 
-// 엔터키 전송 처리
-messageInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        chatForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-    }
-});
+// 🟢 [수정완료] 엔터 키 입력 시 전송하지 않고 기본 동작(줄바꿈) 실행
+// (키 다운 이벤트 방지/전송 연동 로직을 완전히 제거하였습니다)
 
 // 🟢 메시지 전송 이벤트 (관리자 모드 분기)
 chatForm.addEventListener('submit', (e) => {
@@ -190,7 +187,6 @@ btnSendText.addEventListener('click', () => {
 btnSendImage.addEventListener('click', () => {
     sendOptionSheet.classList.add('hidden');
     
-    // 🔒 관리자 권한 확인 후 이미지 전송창 오픈
     if (!isAdmin) {
         alert("이미지 전송은 관리자만 가능합니다.");
         return;
@@ -231,7 +227,6 @@ function compressImage(file, maxWidth, quality, callback) {
 
 // 이미지 파일 선택 후 전송
 chatImageInput.addEventListener('change', (e) => {
-    // 🔒 2중 안전 검사: 관리자만 전송 가능
     if (!isAdmin) {
         alert("이미지는 관리자만 전송할 수 있습니다.");
         chatImageInput.value = '';
@@ -284,7 +279,6 @@ function renderMessage(data) {
     let messageType = isObject ? (data.messageType || 'text') : 'text';
     const msgId = isObject ? data.msgId : null;
 
-    // 🟢 안전장치: text가 base64 이미지 데이터 패턴을 가진 경우 강제로 image 타입 설정
     if (typeof text === 'string' && text.startsWith('data:image/')) {
         messageType = 'image';
     }
@@ -296,7 +290,6 @@ function renderMessage(data) {
 
     let contentHtml = '';
     
-    // 이미지/텍스트 조건 분기
     if (messageType === 'image') {
         const imgClass = senderType === 'artist' ? 'other-img-msg' : 'my-img-msg';
         contentHtml = `
@@ -333,7 +326,6 @@ function renderMessage(data) {
         `;
     }
 
-    // 🟢 영구 삭제 이벤트 연동 (관리자 로그인 시 작동)
     const clickableArea = groupDiv.querySelector('.delete-target');
     if (clickableArea) {
         clickableArea.addEventListener('click', () => {
@@ -367,7 +359,6 @@ socket.on('loadHistory', (history) => {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
-// 🟢 서버로부터 삭제된 메시지 ID 알림을 받아 화면에서 완전히 제거
 socket.on('messageDeleted', (deletedMsgId) => {
     const targetEl = document.querySelector(`[data-id="${deletedMsgId}"]`);
     if (targetEl) {
